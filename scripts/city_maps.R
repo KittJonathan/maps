@@ -14,6 +14,16 @@ library(osmdata)
 
 # Map of Yzeure ----
 
+bbox_yzeure <- osmdata::opq(bbox = c(3.30, 46.54, 3.40, 46.60))
+
+yzeure_buildings <- bbox_yzeure |>
+  osmdata::add_osm_feature(key = "building") |>
+  osmdata::osmdata_sf()
+
+yzeure_water <- bbox_yzeure |>
+  osmdata::add_osm_feature(key = "water") |>
+  osmdata::osmdata_sf()
+
 yzeure_points <- tibble(
   address = c("22 rue Clara Malraux",
               "3 rue Flora Tristan"),
@@ -27,7 +37,12 @@ yzeure <- osmdata::opq(bbox = c(3.30, 46.54, 3.40, 46.60)) |>
   osmdata::add_osm_feature(key = "highway") |>
   osmdata::osmdata_sf()
 
-p <- ggplot() +
+(p <- ggplot() +
+  geom_sf(data = yzeure_buildings$osm_polygons) +
+  geom_sf(data = yzeure_water$osm_polygons,
+          fill = "blue")
+)
+
   geom_sf(data = yzeure$osm_lines,
           size = 0.1,
           alpha = 0.1,
