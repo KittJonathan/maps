@@ -16,6 +16,54 @@ library(osmdata)
 
 bbox_yzeure <- osmdata::opq(bbox = c(3.30, 46.54, 3.40, 46.60))
 
+yzeure_motorway <- bbox_yzeure |>
+  osmdata::add_osm_feature(key = "highway", value = "motorway") |>
+  osmdata::osmdata_sf()
+
+yzeure_trunk <- bbox_yzeure |>
+  osmdata::add_osm_feature(key = "highway", value = "trunk") |>
+  osmdata::osmdata_sf()
+
+yzeure_primary <- bbox_yzeure |>
+  osmdata::add_osm_feature(key = "highway", value = "primary") |>
+  osmdata::osmdata_sf()
+
+yzeure_secondary <- bbox_yzeure |>
+  osmdata::add_osm_feature(key = "highway", value = "secondary") |>
+  osmdata::osmdata_sf()
+
+yzeure_tertiaary <- bbox_yzeure |>
+  osmdata::add_osm_feature(key = "highway", value = "tertiary") |>
+  osmdata::osmdata_sf()
+
+yzeure_unclassified <- bbox_yzeure |>
+  osmdata::add_osm_feature(key = "highway", value = "unclassified") |>
+  osmdata::osmdata_sf()
+
+yzeure_residential <- bbox_yzeure |>
+  osmdata::add_osm_feature(key = "highway", value = "residential") |>
+  osmdata::osmdata_sf()
+
+ggplot() +
+  # geom_sf(data = yzeure_trunk$osm_lines, colour = "red") +
+  # geom_sf(data = yzeure_primary$osm_lines, colour = "blue") +
+  # geom_sf(data = yzeure_secondary$osm_lines, colour = "darkgreen") +
+  # geom_sf(data = yzeure_tertiaary$osm_lines, colour = "black") +
+  # geom_sf(data = yzeure_unclassified$osm_lines, colour = "purple") +
+  geom_sf(data = yzeure_residential$osm_lines, colour = "red")
+
+yzeure_park <- bbox_yzeure |>
+  osmdata::add_osm_feature(key = "leisure", value = "park") |>
+  osmdata::osmdata_sf()
+
+yzeure_garden <- bbox_yzeure |>
+  osmdata::add_osm_feature(key = "leisure", value = "garden") |>
+  osmdata::osmdata_sf()
+
+yzeure_highway <- bbox_yzeure |>
+  osmdata::add_osm_feature(key = "highway") |>
+  osmdata::osmdata_sf()
+
 yzeure_buildings <- bbox_yzeure |>
   osmdata::add_osm_feature(key = "building") |>
   osmdata::osmdata_sf()
@@ -36,6 +84,9 @@ yzeure_points <- tibble(
 yzeure <- osmdata::opq(bbox = c(3.30, 46.54, 3.40, 46.60)) |>
   osmdata::add_osm_feature(key = "highway") |>
   osmdata::osmdata_sf()
+
+ggplot() +
+  geom_sf(data = yzeure_highway$osm_lines)
 
 (p <- ggplot() +
   geom_sf(data = yzeure_buildings$osm_polygons) +
@@ -72,7 +123,7 @@ ggplot() +
 
 # Glenrothes map ----
 
-bbx <- sf::getbb("Glenrothes")
+bbx <- getbb("Glenrothes")
 
 highways <- bbx |>
   opq() |>
